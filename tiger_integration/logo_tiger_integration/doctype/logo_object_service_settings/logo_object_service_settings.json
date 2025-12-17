@@ -1,0 +1,78 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-12-16 15:26:52.881154",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "sb_lobject_service_section",
+  "enable_lobject_service",
+  "lobject_service_address",
+  "logo_company_no",
+  "lobject_service_client_secret",
+  "btn_test_connection"
+ ],
+ "fields": [
+  {
+   "fieldname": "sb_lobject_service_section",
+   "fieldtype": "Section Break",
+   "label": "LOGO Object Service Info"
+  },
+  {
+   "description": "http://localhost:5581/LogoObjectService",
+   "fieldname": "lobject_service_address",
+   "fieldtype": "Data",
+   "label": "LOGO Object Service Address"
+  },
+  {
+   "description": "Ex: 001",
+   "fieldname": "logo_company_no",
+   "fieldtype": "Data",
+   "label": "LOGO Company No",
+   "length": 3
+  },
+  {
+   "description": "Ex:GUID from LogoObjectService.exe",
+   "fieldname": "lobject_service_client_secret",
+   "fieldtype": "Data",
+   "label": "LOGO Object Service Client Secret"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_lobject_service",
+   "fieldtype": "Check",
+   "label": "Enable"
+  },
+  {
+   "fieldname": "btn_test_connection",
+   "fieldtype": "Button",
+   "label": "Test Connection"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2025-12-16 15:35:28.729335",
+ "modified_by": "Administrator",
+ "module": "LOGO Tiger Integration",
+ "name": "LOGO Object Service Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
