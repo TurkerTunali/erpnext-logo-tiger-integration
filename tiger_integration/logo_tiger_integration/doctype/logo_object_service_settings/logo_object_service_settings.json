@@ -7,10 +7,13 @@
  "field_order": [
   "sb_lobject_service_section",
   "enable_lobject_service",
+  "enable_detailed_log",
   "lobject_service_address",
   "logo_company_no",
   "lobject_service_client_secret",
-  "btn_test_connection"
+  "btn_test_connection",
+  "tp_mappings_tab",
+  "mappings"
  ],
  "fields": [
   {
@@ -47,13 +50,30 @@
    "fieldname": "btn_test_connection",
    "fieldtype": "Button",
    "label": "Test Connection"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_detailed_log",
+   "fieldtype": "Check",
+   "label": "Enable Detailed Log"
+  },
+  {
+   "fieldname": "tp_mappings_tab",
+   "fieldtype": "Tab Break",
+   "label": "Mappings"
+  },
+  {
+   "fieldname": "mappings",
+   "fieldtype": "Table",
+   "label": "Mappings",
+   "options": "LOGO Object Mapping"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-12-16 15:35:28.729335",
+ "modified": "2025-12-23 17:01:28.053463",
  "modified_by": "Administrator",
  "module": "LOGO Tiger Integration",
  "name": "LOGO Object Service Settings",

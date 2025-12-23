@@ -1,0 +1,50 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-12-23 16:57:46.854333",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "data_type",
+  "erp_code",
+  "logo_code"
+ ],
+ "fields": [
+  {
+   "fieldname": "data_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Data Type",
+   "options": "\nCustomer Group\nPayment Term Template",
+   "reqd": 1
+  },
+  {
+   "fieldname": "logo_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "LOGO Code"
+  },
+  {
+   "fieldname": "erp_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "ERP Code"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-12-23 17:50:59.468248",
+ "modified_by": "Administrator",
+ "module": "LOGO Tiger Integration",
+ "name": "LOGO Object Mapping",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
