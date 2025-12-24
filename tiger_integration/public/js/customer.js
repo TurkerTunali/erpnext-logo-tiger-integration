@@ -18,6 +18,9 @@ frappe.ui.form.on("Customer", {
 						message: r.message.op_message,
 						indicator: r.message.op_result ? "green" : "red"
 					});
+					if (r.message.op_result == true) {
+						frm.reload_doc()
+					}
 				}
 			});
 		}, __("Actions"));

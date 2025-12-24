@@ -88,22 +88,22 @@ def export_to_logo(doctype, docname):
 		if docLObjectServiceSettings.enable_lobject_service == 0:
 			frappe.throw(_("LOGO Object Service aktif değil!"))
 
-		dctUnit = get_logo_mapping_for("Unit", doc.stock_uom, throw_exception = True, docLObjectServiceSettings = docLObjectServiceSettings)
-		if dctUnit.op_result == True:
-			doc.logo_unitset_code = dctUnit.op_message
-			doc.logo_unit_code = dctUnit.op_message_2
-
-		#Find tax rate
-		for tax in doc.taxes:
-			tax_company = frappe.db.get_value("Item Tax Template", tax.item_tax_template, "company")
-			if tax_company == docLObjectServiceSettings.default_company:
-				docItemTaxTemplate = frappe.get_doc("Item Tax Template", tax.item_tax_template)
-				doc.logo_tax_rate = docItemTaxTemplate.taxes[0].tax_rate
-
 		validate_export_to_logo(doctype, docname, docLObjectServiceSettings)
 
 		if doc.doctype == "Item":
 			dataType = 0
+
+			dctUnit = get_logo_mapping_for("Unit", doc.stock_uom, throw_exception = True, docLObjectServiceSettings = docLObjectServiceSettings)
+			if dctUnit.op_result == True:
+				doc.logo_unitset_code = dctUnit.op_message
+				doc.logo_unit_code = dctUnit.op_message_2
+
+			#Find tax rate
+			for tax in doc.taxes:
+				tax_company = frappe.db.get_value("Item Tax Template", tax.item_tax_template, "company")
+				if tax_company == docLObjectServiceSettings.default_company:
+					docItemTaxTemplate = frappe.get_doc("Item Tax Template", tax.item_tax_template)
+					doc.logo_tax_rate = docItemTaxTemplate.taxes[0].tax_rate
 
 			soap_body = f"""
 <soapenv:Envelope 
@@ -343,10 +343,11 @@ def export_to_logo(doctype, docname):
 				dctResult.op_status = int(result_status.text) if result_status else 0
 				if dctResult.op_status != 3:
 					dctResult.op_result = False
-					dctResult.op_message = error_string.text if error_string else ""
+					dctResult.op_message =  (error_string.text if error_string else "") + "(OpStatus=" + str(dctResult.op_status) + ")"
 				else:
 					dctResult.op_result = True
 					dctResult.op_message = data_reference
+					doc.add_comment("Comment", text=_("LOGO Export reference no {0}").format(dctResult.data_reference), comment_email=frappe.session.user, comment_by=frappe.session.user)
 
 	except Exception as e:
 		dctResult.op_result = False
