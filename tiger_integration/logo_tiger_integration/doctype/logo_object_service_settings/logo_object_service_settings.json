@@ -5,6 +5,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "connection_tab",
   "sb_lobject_service_section",
   "enable_lobject_service",
   "enable_detailed_log",
@@ -15,7 +16,10 @@
   "column_break_sdjm",
   "default_company",
   "tp_mappings_tab",
-  "mappings"
+  "mappings",
+  "tb_xml_tab",
+  "logo_xml_templates",
+  "default_parameter_xml"
  ],
  "fields": [
   {
@@ -82,13 +86,36 @@
    "label": "Default Company",
    "options": "Company",
    "reqd": 1
+  },
+  {
+   "fieldname": "connection_tab",
+   "fieldtype": "Tab Break",
+   "label": "Connection"
+  },
+  {
+   "fieldname": "tb_xml_tab",
+   "fieldtype": "Tab Break",
+   "label": "LOGO XML Templates"
+  },
+  {
+   "default": "&lt;Parameters&gt;\n  &lt;ReplicMode&gt;0&lt;/ReplicMode&gt;\n  &lt;CheckParams&gt;1&lt;/CheckParams&gt;\n  &lt;CheckRight&gt;1&lt;/CheckRight&gt;\n  &lt;ApplyCampaign&gt;1&lt;/ApplyCampaign&gt;\n  &lt;ApplyCondition&gt;1&lt;/ApplyCondition&gt;\n  &lt;FillAccCodes&gt;1&lt;/FillAccCodes&gt;\n  &lt;FormSeriLotLines&gt;0&lt;/FormSeriLotLines&gt;\n  &lt;GetStockLinePrice&gt;0&lt;/GetStockLinePrice&gt;\n  &lt;ExportAllData&gt;1&lt;/ExportAllData&gt;\n  &lt;Validation&gt;0&lt;/Validation&gt;\n  &lt;CheckApproveDate&gt;0&lt;/CheckApproveDate&gt;\n  &lt;Period&gt;01&lt;/Period&gt;\n&lt;/Parameters&gt;",
+   "fieldname": "default_parameter_xml",
+   "fieldtype": "Code",
+   "label": "Default Parameter XML",
+   "options": "XML"
+  },
+  {
+   "fieldname": "logo_xml_templates",
+   "fieldtype": "Table",
+   "label": "XML Templates",
+   "options": "LOGO Object XML"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-12-24 11:09:47.426763",
+ "modified": "2025-12-24 16:38:49.926699",
  "modified_by": "Administrator",
  "module": "LOGO Tiger Integration",
  "name": "LOGO Object Service Settings",

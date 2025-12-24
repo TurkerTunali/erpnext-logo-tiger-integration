@@ -1,0 +1,54 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-12-24 16:05:24.960627",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "document_type",
+  "logo_xml_template",
+  "parameter_xml"
+ ],
+ "fields": [
+  {
+   "columns": 1,
+   "fieldname": "document_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Document Type",
+   "options": "DocType",
+   "reqd": 1
+  },
+  {
+   "fieldname": "logo_xml_template",
+   "fieldtype": "Code",
+   "in_list_view": 1,
+   "label": "LOGO XML Template",
+   "options": "XML",
+   "reqd": 1
+  },
+  {
+   "description": "&lt;ReplicMode&gt;0&lt;/ReplicMode&gt;<br>\n&lt;CheckParams&gt;1&lt;/CheckParams&gt;<br>\n&lt;CheckRight&gt;1&lt;/CheckRight&gt;<br>\n&lt;ApplyCampaign&gt;1&lt;/ApplyCampaign&gt;",
+   "fieldname": "parameter_xml",
+   "fieldtype": "Code",
+   "label": "Parameter XML",
+   "options": "XML"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-12-24 16:47:13.932331",
+ "modified_by": "Administrator",
+ "module": "LOGO Tiger Integration",
+ "name": "LOGO Object XML",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
