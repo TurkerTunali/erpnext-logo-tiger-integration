@@ -30,7 +30,8 @@ def get_logo_mapping_for(data_type, erp_code, throw_exception = False, docLObjec
 				dctResult.op_result = True
 
 	if dctResult.op_result == False and throw_exception == True:
-		frappe.throw(_("{0} tipinde {1} için eşleştirme bulunamadı! LOGO Object Service Settings'de kontrol ediniz").format(data_type, erp_code))
+		link = frappe.utils.get_link_to_form("LOGO Object Service Settings", _("LOGO Object Service Settings"))
+		frappe.throw(_("{0} tipinde {1} için eşleştirme bulunamadı! {2} içinde kontrol ediniz").format(data_type, erp_code, link))
 
 	return dctResult
 
