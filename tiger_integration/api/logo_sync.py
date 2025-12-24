@@ -15,7 +15,8 @@ def get_logo_mapping_for(data_type, erp_code, throw_exception = False, docLObjec
 	#Gets info from LOGO Object Service Settings -> Mappings table
 	dctResult = frappe._dict({
 		"op_result": False,
-		"op_message": ""
+		"op_message": "",
+		"op_message_2": ""
 	})
 
 	if not docLObjectServiceSettings:
@@ -25,6 +26,7 @@ def get_logo_mapping_for(data_type, erp_code, throw_exception = False, docLObjec
 		if mapping.data_type == data_type:
 			if mapping.erp_code == erp_code:
 				dctResult.op_message = mapping.logo_code
+				dctResult.op_message_2 = mapping.logo_code_2
 				dctResult.op_result = True
 
 	if dctResult.op_result == False and throw_exception == True:
@@ -32,9 +34,21 @@ def get_logo_mapping_for(data_type, erp_code, throw_exception = False, docLObjec
 
 	return dctResult
 
-def validate_export_to_logo(doctype, docname):
+def validate_export_to_logo(doctype, docname, docLObjectServiceSettings):
 	doc = frappe.get_doc(doctype, docname)
 	doc.check_permission("read")
+
+	if doctype == "Item":
+		#Tax must be ok
+		if len(doc.taxes) == 0:
+			frappe.throw(_("Vergiler tanımlı olmalıdır!"))
+
+		for tax in doc.taxes:
+			tax_company = frappe.db.get_value("Item Tax Template", tax.item_tax_template, "company")
+			if tax_company == docLObjectServiceSettings.default_company:
+				docItemTaxTemplate = frappe.get_doc("Item Tax Template", tax.item_tax_template)
+				if len(doc.taxes) == 0:
+					frappe.throw("{0} için vergi oranı tanımlı olmalıdır!".format(docItemTaxTemplate.name))
 
 	if doctype == "Customer":
 		#Payment Term, default billing address
@@ -71,7 +85,22 @@ def export_to_logo(doctype, docname):
 	docLObjectServiceSettings.check_permission("read")
 
 	try:
-		validate_export_to_logo(doctype, docname)
+		if docLObjectServiceSettings.enable_lobject_service == 0:
+			frappe.throw(_("LOGO Object Service aktif değil!"))
+
+		dctUnit = get_logo_mapping_for("Unit", doc.stock_uom, throw_exception = True, docLObjectServiceSettings = docLObjectServiceSettings)
+		if dctUnit.op_result == True:
+			doc.logo_unitset_code = dctUnit.op_message
+			doc.logo_unit_code = dctUnit.op_message_2
+
+		#Find tax rate
+		for tax in doc.taxes:
+			tax_company = frappe.db.get_value("Item Tax Template", tax.item_tax_template, "company")
+			if tax_company == docLObjectServiceSettings.default_company:
+				docItemTaxTemplate = frappe.get_doc("Item Tax Template", tax.item_tax_template)
+				doc.logo_tax_rate = docItemTaxTemplate.taxes[0].tax_rate
+
+		validate_export_to_logo(doctype, docname, docLObjectServiceSettings)
 
 		if doc.doctype == "Item":
 			dataType = 0
@@ -91,22 +120,22 @@ def export_to_logo(doctype, docname):
 	<CARD_TYPE>1</CARD_TYPE>
 	<CODE>{ doc.name }</CODE>
 	<NAME>{ doc.item_name }</NAME>
-    <GROUP_CODE>gk</GROUP_CODE>
+    <GROUP_CODE>{ doc.item_group }</GROUP_CODE>
     <PRODUCER_CODE></PRODUCER_CODE>
-    <AUXIL_CODE>ok</AUXIL_CODE>
-    <AUTH_CODE>yk</AUTH_CODE>
+    <AUXIL_CODE></AUXIL_CODE>
+    <AUTH_CODE></AUTH_CODE>
     <USEF_PURCHASING>1</USEF_PURCHASING>
     <USEF_SALES>1</USEF_SALES>
     <USEF_MM>1</USEF_MM>
-    <VAT>11</VAT>
+    <VAT>{ doc.logo_tax_rate }</VAT>
     <AUTOINCSL>1</AUTOINCSL>
     <LOTS_DIVISIBLE>1</LOTS_DIVISIBLE>
-    <UNITSET_CODE>05</UNITSET_CODE>
+    <UNITSET_CODE>{ doc.logo_unitset_code }</UNITSET_CODE>
     <DIST_LOT_UNITS>1</DIST_LOT_UNITS>
     <COMB_LOT_UNITS>1</COMB_LOT_UNITS>
     <UNITS>
       <UNIT>
-        <UNIT_CODE>ADET</UNIT_CODE>
+        <UNIT_CODE>{ doc.logo_unit_code }</UNIT_CODE>
         <USEF_MTRLCLASS>1</USEF_MTRLCLASS>
         <USEF_PURCHCLAS>1</USEF_PURCHCLAS>
         <USEF_SALESCLAS>1</USEF_SALESCLAS>
@@ -116,15 +145,15 @@ def export_to_logo(doctype, docname):
     </UNITS>
     <MULTI_ADD_TAX>0</MULTI_ADD_TAX>
     <PACKET>0</PACKET>
-    <SELVAT>22</SELVAT>
-    <RETURNVAT>33</RETURNVAT>
-    <SELPRVAT>44</SELPRVAT>
-    <RETURNPRVAT>55</RETURNPRVAT>
-    <MARKCODE>NOSSA</MARKCODE>
-    <AUXIL_CODE2>ok2</AUXIL_CODE2>
-    <AUXIL_CODE3>ok3</AUXIL_CODE3>
-    <AUXIL_CODE4>ok4</AUXIL_CODE4>
-    <AUXIL_CODE5>ok5</AUXIL_CODE5>
+    <SELVAT>{ doc.logo_tax_rate }</SELVAT>
+    <RETURNVAT>{ doc.logo_tax_rate }</RETURNVAT>
+    <SELPRVAT>{ doc.logo_tax_rate }</SELPRVAT>
+    <RETURNPRVAT>{ doc.logo_tax_rate }</RETURNPRVAT>
+    <MARKCODE></MARKCODE>
+    <AUXIL_CODE2></AUXIL_CODE2>
+    <AUXIL_CODE3></AUXIL_CODE3>
+    <AUXIL_CODE4>{ doc.brand or '' }</AUXIL_CODE4>
+    <AUXIL_CODE5>{ doc.custom_manufacturer or '' }</AUXIL_CODE5>
     <UPDATECHILDS>1</UPDATECHILDS>
   </ITEM>
 </ITEMS>]]>

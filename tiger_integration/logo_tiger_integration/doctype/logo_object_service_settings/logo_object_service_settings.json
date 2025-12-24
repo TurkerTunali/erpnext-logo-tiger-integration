@@ -12,6 +12,8 @@
   "logo_company_no",
   "lobject_service_client_secret",
   "btn_test_connection",
+  "column_break_sdjm",
+  "default_company",
   "tp_mappings_tab",
   "mappings"
  ],
@@ -67,13 +69,26 @@
    "fieldtype": "Table",
    "label": "Mappings",
    "options": "LOGO Object Mapping"
+  },
+  {
+   "fieldname": "column_break_sdjm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "Ex: Item tax",
+   "fieldname": "default_company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Default Company",
+   "options": "Company",
+   "reqd": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-12-23 17:01:28.053463",
+ "modified": "2025-12-24 11:09:47.426763",
  "modified_by": "Administrator",
  "module": "LOGO Tiger Integration",
  "name": "LOGO Object Service Settings",
