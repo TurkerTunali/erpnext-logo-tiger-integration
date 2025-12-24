@@ -162,7 +162,7 @@ def export_to_logo(doctype, docname):
 
 			doc.logo_payment_term = ""
 			if doc.payment_terms:
-				dctPaymentTerm = get_logo_mapping_for("Payment Term Template", doc.payment_terms, throw_exception = False, docLObjectServiceSettings = docLObjectServiceSettings)
+				dctPaymentTerm = get_logo_mapping_for("Payment Term Template", doc.payment_terms, throw_exception = True, docLObjectServiceSettings = docLObjectServiceSettings)
 				if dctPaymentTerm.op_result == True:
 					doc.logo_payment_term = dctPaymentTerm.op_message
 
@@ -219,7 +219,7 @@ def export_to_logo(doctype, docname):
     <DISTRICT></DISTRICT>
     <TOWN_CODE></TOWN_CODE>
     <TOWN>{ docBillingAddress.county or '' }</TOWN>
-    <CITY_CODE>İSTANBUL</CITY_CODE>
+    <CITY_CODE></CITY_CODE>
     <CITY>{ docBillingAddress.city or '' }</CITY>
     <COUNTRY_CODE></COUNTRY_CODE>
     <COUNTRY>{ docBillingAddress.country or '' }</COUNTRY>
@@ -284,7 +284,7 @@ def export_to_logo(doctype, docname):
 		}
 
 		if docLObjectServiceSettings.enable_detailed_log:
-			frappe.log_error("LOGO Object Request", f"Url={docLObjectServiceSettings.lobject_service_address}\n\nSOAP Body={soap_body}\n\nHeaders={headers}")
+			frappe.log_error("LOGO Object Request", f"URL={docLObjectServiceSettings.lobject_service_address}\n\nSOAP Body={soap_body}\n\nSOAP Headers={headers}")
 
 		response = requests.post(
 			url=docLObjectServiceSettings.lobject_service_address,
