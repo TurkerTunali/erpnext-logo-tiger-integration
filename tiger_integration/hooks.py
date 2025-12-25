@@ -45,7 +45,9 @@ app_license = "mit"
 # include js in doctype views
 doctype_js = {
 	"Item" : "public/js/item.js",
-	"Customer": "public/js/customer.js"
+	"Customer": "public/js/customer.js",
+	"Delivery Note": "public/js/delivery_note.js",
+	"Sales Order": "public/js/sales_order.js"
 	}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -75,8 +77,14 @@ doctype_js = {
 
 # Jinja
 # ----------
-
 # add methods and filters to jinja environment
+
+jinja = {
+    "methods": [
+        "tiger_integration.api.logo_sync.get_item_tax_rate"
+    ]
+}
+
 # jinja = {
 # 	"methods": "tiger_integration.utils.jinja_methods",
 # 	"filters": "tiger_integration.utils.jinja_filters"

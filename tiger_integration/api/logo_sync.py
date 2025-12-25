@@ -218,7 +218,7 @@ def get_logo_xml(doctype, docLObjectServiceSettings):
 
 	if dctResult.op_result == False:
 		link = frappe.utils.get_link_to_form("LOGO Object Service Settings", _("LOGO Object Service Settings"))
-		frappe.throw(_("{0} tipinde {1} için eşleştirme bulunamadı! {2} sayfasında kontrol ediniz").format(doctype, erp_code, link))
+		frappe.throw(_("{0} tipi {1} sayfasında eşleştirme bulunamadı!").format(_(doctype), link))
 
 	return dctResult
 
@@ -246,6 +246,26 @@ def get_logo_mapping_for(data_type, erp_code, throw_exception = False, docLObjec
 
 	return dctResult
 
+@frappe.whitelist()
+def get_item_tax_rate(strItemCode, docLObjectServiceSettings = None):
+	flResult = 0
+
+	if not docLObjectServiceSettings:
+		docLObjectServiceSettings = frappe.get_doc("LOGO Object Service Settings")
+
+	docItem = frappe.get_doc("Item", strItemCode)
+
+	for tax in docItem.taxes:
+		tax_company = frappe.db.get_value("Item Tax Template", tax.item_tax_template, "company")
+		if tax_company == docLObjectServiceSettings.default_company:
+			docItemTaxTemplate = frappe.get_doc("Item Tax Template", tax.item_tax_template)
+			if len(docItemTaxTemplate.taxes) == 0:
+				frappe.throw("{0} için vergi oranı tanımlı olmalıdır!".format(docItemTaxTemplate.name))
+			else:
+				flResult = docItemTaxTemplate.taxes[0].tax_rate
+
+	return flResult
+
 def validate_export_to_logo(doctype, docname, docLObjectServiceSettings):
 	doc = frappe.get_doc(doctype, docname)
 	doc.check_permission("read")
@@ -255,12 +275,14 @@ def validate_export_to_logo(doctype, docname, docLObjectServiceSettings):
 		if len(doc.taxes) == 0:
 			frappe.throw(_("Vergiler tanımlı olmalıdır!"))
 
-		for tax in doc.taxes:
-			tax_company = frappe.db.get_value("Item Tax Template", tax.item_tax_template, "company")
-			if tax_company == docLObjectServiceSettings.default_company:
-				docItemTaxTemplate = frappe.get_doc("Item Tax Template", tax.item_tax_template)
-				if len(doc.taxes) == 0:
-					frappe.throw("{0} için vergi oranı tanımlı olmalıdır!".format(docItemTaxTemplate.name))
+		#get_item_tax_rate(doc.item_code, docLObjectServiceSettings)
+
+		#for tax in doc.taxes:
+		#	tax_company = frappe.db.get_value("Item Tax Template", tax.item_tax_template, "company")
+		#	if tax_company == docLObjectServiceSettings.default_company:
+		#		docItemTaxTemplate = frappe.get_doc("Item Tax Template", tax.item_tax_template)
+		#		if len(doc.taxes) == 0:
+		#			frappe.throw("{0} için vergi oranı tanımlı olmalıdır!".format(docItemTaxTemplate.name))
 
 	if doctype == "Customer":
 		#Payment Term, default billing address
@@ -319,11 +341,12 @@ def export_to_logo(doctype, docname, update_logo = False):
 				doc.logo_unit_code = dctUnit.op_message_2
 
 			#Find tax rate
-			for tax in doc.taxes:
-				tax_company = frappe.db.get_value("Item Tax Template", tax.item_tax_template, "company")
-				if tax_company == docLObjectServiceSettings.default_company:
-					docItemTaxTemplate = frappe.get_doc("Item Tax Template", tax.item_tax_template)
-					doc.logo_tax_rate = docItemTaxTemplate.taxes[0].tax_rate
+			doc.logo_tax_rate = get_item_tax_rate(doc.item_code, docLObjectServiceSettings)
+			#for tax in doc.taxes:
+			#	tax_company = frappe.db.get_value("Item Tax Template", tax.item_tax_template, "company")
+			#	if tax_company == docLObjectServiceSettings.default_company:
+			#		docItemTaxTemplate = frappe.get_doc("Item Tax Template", tax.item_tax_template)
+			#		doc.logo_tax_rate = docItemTaxTemplate.taxes[0].tax_rate
 
 			soap_body = frappe.render_template(soap_body, context={'doc': doc, 'docLObjectServiceSettings': docLObjectServiceSettings, 'parameterXML': parameterXML})
 
@@ -361,7 +384,16 @@ def export_to_logo(doctype, docname, update_logo = False):
 				frappe.throw(_("Customer has no Billing Address"))
 
 			soap_body = frappe.render_template(soap_body, context={'doc': doc, 'docLObjectServiceSettings': docLObjectServiceSettings, 'docBillingAddress': docBillingAddress, 'parameterXML': parameterXML})
-		
+		elif doctype in ["Sales Order", "Delivery Note"]:
+			from frappe.utils import formatdate, format_time
+			doc.posting_date_str = formatdate(doc.posting_date, "dd-mm-yyyy")
+			doc.posting_time_str = 0#format_time(doc.posting_time, format_string="HH:mm:ss.SSS") + "+03:00"
+
+			soap_body = frappe.render_template(soap_body, context={'doc': doc, 'docLObjectServiceSettings': docLObjectServiceSettings, 'parameterXML': parameterXML})
+
+		else:
+			soap_body = frappe.render_template(soap_body, context={'doc': doc, 'docLObjectServiceSettings': docLObjectServiceSettings, 'parameterXML': parameterXML})
+
 		headers = {
 			"Content-Type": "text/xml;charset=UTF-8",
 			"Accept-Encoding": "gzip,deflate",
