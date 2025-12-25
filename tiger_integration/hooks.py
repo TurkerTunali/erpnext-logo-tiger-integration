@@ -81,7 +81,8 @@ doctype_js = {
 
 jinja = {
     "methods": [
-        "tiger_integration.api.logo_sync.get_item_tax_rate"
+        "tiger_integration.api.logo_sync.get_item_tax_rate",
+		"tiger_integration.api.logo_sync.get_logo_mapping_for"
     ]
 }
 
