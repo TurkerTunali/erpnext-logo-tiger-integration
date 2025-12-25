@@ -14,10 +14,10 @@
  "fields": [
   {
    "fieldname": "data_type",
-   "fieldtype": "Select",
+   "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Data Type",
-   "options": "\nCustomer Group\nPayment Term Template\nUnit\nMode of Payment",
+   "options": "DocType",
    "reqd": 1
   },
   {
@@ -28,9 +28,10 @@
   },
   {
    "fieldname": "erp_code",
-   "fieldtype": "Data",
+   "fieldtype": "Dynamic Link",
    "in_list_view": 1,
-   "label": "ERP Code"
+   "label": "ERP Code",
+   "options": "data_type"
   },
   {
    "description": "Unit Set Code (05), Unit Code (Adet)",
@@ -44,7 +45,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-12-24 14:43:26.287955",
+ "modified": "2025-12-25 10:53:39.375068",
  "modified_by": "Administrator",
  "module": "LOGO Tiger Integration",
  "name": "LOGO Object Mapping",

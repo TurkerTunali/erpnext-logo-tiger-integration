@@ -222,12 +222,14 @@ def get_logo_xml(doctype, docLObjectServiceSettings):
 
 	return dctResult
 
+@frappe.whitelist()
 def get_logo_mapping_for(data_type, erp_code, throw_exception = False, docLObjectServiceSettings = None):
 	#Gets info from LOGO Object Service Settings -> Mappings table
 	dctResult = frappe._dict({
 		"op_result": False,
 		"op_message": "",
-		"op_message_2": ""
+		"logo_code": "",
+		"logo_code_2": ""
 	})
 
 	if not docLObjectServiceSettings:
@@ -236,8 +238,8 @@ def get_logo_mapping_for(data_type, erp_code, throw_exception = False, docLObjec
 	for mapping in docLObjectServiceSettings.mappings:
 		if mapping.data_type == data_type:
 			if mapping.erp_code == erp_code:
-				dctResult.op_message = mapping.logo_code
-				dctResult.op_message_2 = mapping.logo_code_2
+				dctResult.logo_code = mapping.logo_code
+				dctResult.logo_code_2 = mapping.logo_code_2
 				dctResult.op_result = True
 
 	if dctResult.op_result == False and throw_exception == True:
@@ -335,10 +337,10 @@ def export_to_logo(doctype, docname, update_logo = False):
 		if doc.doctype == "Item":
 			doc.logo_dataType = 0
 
-			dctUnit = get_logo_mapping_for("Unit", doc.stock_uom, throw_exception = True, docLObjectServiceSettings = docLObjectServiceSettings)
-			if dctUnit.op_result == True:
-				doc.logo_unitset_code = dctUnit.op_message
-				doc.logo_unit_code = dctUnit.op_message_2
+			#dctUnit = get_logo_mapping_for("UOM", doc.stock_uom, throw_exception = True, docLObjectServiceSettings = docLObjectServiceSettings)
+			#if dctUnit.op_result == True:
+			#	doc.logo_unitset_code = dctUnit.op_message
+			#	doc.logo_unit_code = dctUnit.op_message_2
 
 			#Find tax rate
 			doc.logo_tax_rate = get_item_tax_rate(doc.item_code, docLObjectServiceSettings)
@@ -353,15 +355,15 @@ def export_to_logo(doctype, docname, update_logo = False):
 		elif doc.doctype == "Customer":
 			doc.logo_dataType = 30
 
-			dctCustomerGroup = get_logo_mapping_for("Customer Group", doc.customer_group, throw_exception = True, docLObjectServiceSettings = docLObjectServiceSettings)
-			if dctCustomerGroup.op_result == True:
-				doc.logo_parent_code = dctCustomerGroup.op_message
+			#dctCustomerGroup = get_logo_mapping_for("Customer Group", doc.customer_group, throw_exception = True, docLObjectServiceSettings = docLObjectServiceSettings)
+			#if dctCustomerGroup.op_result == True:
+			#	doc.logo_parent_code = dctCustomerGroup.logo_code
 
-			doc.logo_payment_term = ""
-			if doc.payment_terms:
-				dctPaymentTerm = get_logo_mapping_for("Payment Term Template", doc.payment_terms, throw_exception = True, docLObjectServiceSettings = docLObjectServiceSettings)
-				if dctPaymentTerm.op_result == True:
-					doc.logo_payment_term = dctPaymentTerm.op_message
+			#doc.logo_payment_term = ""
+			#if doc.payment_terms:
+			#	dctPaymentTerm = get_logo_mapping_for("Payment Terms Template", doc.payment_terms, throw_exception = True, docLObjectServiceSettings = docLObjectServiceSettings)
+			#	if dctPaymentTerm.op_result == True:
+			#		doc.logo_payment_term = dctPaymentTerm.logo_code
 
 			if doc.customer_type == "Individual":
 				doc.personal_company = 1
