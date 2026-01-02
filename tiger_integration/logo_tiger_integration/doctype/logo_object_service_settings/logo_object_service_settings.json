@@ -115,7 +115,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-12-24 16:38:49.926699",
+ "modified": "2025-12-25 21:25:06.843241",
  "modified_by": "Administrator",
  "module": "LOGO Tiger Integration",
  "name": "LOGO Object Service Settings",
@@ -136,5 +136,6 @@
  "rows_threshold_for_grid_search": 20,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "track_changes": 1
 }

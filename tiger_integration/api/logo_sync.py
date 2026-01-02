@@ -61,41 +61,41 @@ def get_logo_xml(doctype, docLObjectServiceSettings):
 	<CARD_TYPE>1</CARD_TYPE>
 	<CODE>{{ doc.name }}</CODE>
 	<NAME>{{ doc.item_name }}</NAME>
-    <GROUP_CODE>{{ doc.item_group }}</GROUP_CODE>
-    <PRODUCER_CODE></PRODUCER_CODE>
-    <AUXIL_CODE></AUXIL_CODE>
-    <AUTH_CODE></AUTH_CODE>
-    <USEF_PURCHASING>1</USEF_PURCHASING>
-    <USEF_SALES>1</USEF_SALES>
-    <USEF_MM>1</USEF_MM>
-    <VAT>{{ doc.logo_tax_rate }}</VAT>
-    <AUTOINCSL>1</AUTOINCSL>
-    <LOTS_DIVISIBLE>1</LOTS_DIVISIBLE>
-    <UNITSET_CODE>{{ doc.logo_unitset_code }}</UNITSET_CODE>
-    <DIST_LOT_UNITS>1</DIST_LOT_UNITS>
-    <COMB_LOT_UNITS>1</COMB_LOT_UNITS>
-    <UNITS>
-      <UNIT>
-        <UNIT_CODE>{{ doc.logo_unit_code }}</UNIT_CODE>
-        <USEF_MTRLCLASS>1</USEF_MTRLCLASS>
-        <USEF_PURCHCLAS>1</USEF_PURCHCLAS>
-        <USEF_SALESCLAS>1</USEF_SALESCLAS>
-        <CONV_FACT1>1</CONV_FACT1>
-        <CONV_FACT2>1</CONV_FACT2>
-      </UNIT>
-    </UNITS>
-    <MULTI_ADD_TAX>0</MULTI_ADD_TAX>
-    <PACKET>0</PACKET>
-    <SELVAT>{{ doc.logo_tax_rate }}</SELVAT>
-    <RETURNVAT>{{ doc.logo_tax_rate }}</RETURNVAT>
-    <SELPRVAT>{{ doc.logo_tax_rate }}</SELPRVAT>
-    <RETURNPRVAT>{{ doc.logo_tax_rate }}</RETURNPRVAT>
-    <MARKCODE></MARKCODE>
-    <AUXIL_CODE2></AUXIL_CODE2>
-    <AUXIL_CODE3></AUXIL_CODE3>
-    <AUXIL_CODE4>{{ doc.brand or '' }}</AUXIL_CODE4>
-    <AUXIL_CODE5>{{ doc.custom_manufacturer or '' }}</AUXIL_CODE5>
-    <UPDATECHILDS>1</UPDATECHILDS>
+	<GROUP_CODE>{{ doc.item_group }}</GROUP_CODE>
+	<PRODUCER_CODE></PRODUCER_CODE>
+	<AUXIL_CODE></AUXIL_CODE>
+	<AUTH_CODE></AUTH_CODE>
+	<USEF_PURCHASING>1</USEF_PURCHASING>
+	<USEF_SALES>1</USEF_SALES>
+	<USEF_MM>1</USEF_MM>
+	<VAT>{{ doc.logo_tax_rate }}</VAT>
+	<AUTOINCSL>1</AUTOINCSL>
+	<LOTS_DIVISIBLE>1</LOTS_DIVISIBLE>
+	<UNITSET_CODE>{{ doc.logo_unitset_code }}</UNITSET_CODE>
+	<DIST_LOT_UNITS>1</DIST_LOT_UNITS>
+	<COMB_LOT_UNITS>1</COMB_LOT_UNITS>
+	<UNITS>
+	  <UNIT>
+		<UNIT_CODE>{{ doc.logo_unit_code }}</UNIT_CODE>
+		<USEF_MTRLCLASS>1</USEF_MTRLCLASS>
+		<USEF_PURCHCLAS>1</USEF_PURCHCLAS>
+		<USEF_SALESCLAS>1</USEF_SALESCLAS>
+		<CONV_FACT1>1</CONV_FACT1>
+		<CONV_FACT2>1</CONV_FACT2>
+	  </UNIT>
+	</UNITS>
+	<MULTI_ADD_TAX>0</MULTI_ADD_TAX>
+	<PACKET>0</PACKET>
+	<SELVAT>{{ doc.logo_tax_rate }}</SELVAT>
+	<RETURNVAT>{{ doc.logo_tax_rate }}</RETURNVAT>
+	<SELPRVAT>{{ doc.logo_tax_rate }}</SELPRVAT>
+	<RETURNPRVAT>{{ doc.logo_tax_rate }}</RETURNPRVAT>
+	<MARKCODE></MARKCODE>
+	<AUXIL_CODE2></AUXIL_CODE2>
+	<AUXIL_CODE3></AUXIL_CODE3>
+	<AUXIL_CODE4>{{ doc.brand or '' }}</AUXIL_CODE4>
+	<AUXIL_CODE5>{{ doc.custom_manufacturer or '' }}</AUXIL_CODE5>
+	<UPDATECHILDS>1</UPDATECHILDS>
   </ITEM>
 </ITEMS>]]>
 		 </tem:dataXML>
@@ -137,57 +137,57 @@ def get_logo_xml(doctype, docLObjectServiceSettings):
 			<![CDATA[<?xml version="1.0" encoding="ISO-8859-9"?>
 <AR_APS>
   <AR_AP DBOP="INS" >
-    <ACCOUNT_TYPE>1</ACCOUNT_TYPE>
-    <CODE>{{ doc.name }}</CODE>
-    <TITLE>{{ doc.customer_name }}</TITLE>
-    <CORRESP_LANG>1</CORRESP_LANG>
-    <NOTES>
-      <NOTE>
-        <INTERNAL_REFERENCE>0</INTERNAL_REFERENCE>
-      </NOTE>
-    </NOTES>
-    <CL_ORD_FREQ>1</CL_ORD_FREQ>
-    <INVOICE_PRNT_CNT>1</INVOICE_PRNT_CNT>
-    <PARENTCLCODE>{{ doc.logo_parent_code }}</PARENTCLCODE>
+	<ACCOUNT_TYPE>1</ACCOUNT_TYPE>
+	<CODE>{{ doc.name }}</CODE>
+	<TITLE>{{ doc.customer_name }}</TITLE>
+	<CORRESP_LANG>1</CORRESP_LANG>
+	<NOTES>
+	  <NOTE>
+		<INTERNAL_REFERENCE>0</INTERNAL_REFERENCE>
+	  </NOTE>
+	</NOTES>
+	<CL_ORD_FREQ>1</CL_ORD_FREQ>
+	<INVOICE_PRNT_CNT>1</INVOICE_PRNT_CNT>
+	<PARENTCLCODE>{{ doc.logo_parent_code }}</PARENTCLCODE>
 	<PERSCOMPANY>{{ doc.personal_company }}</PERSCOMPANY>
-    <ORGLOGOID></ORGLOGOID>
+	<ORGLOGOID></ORGLOGOID>
 	<ADDRESS1>{{ docBillingAddress.address_line1 }}</ADDRESS1>
-    <ADDRESS2>{{ docBillingAddress.address_line2 or '' }}</ADDRESS2>
-    <DISTRICT_CODE></DISTRICT_CODE>
-    <DISTRICT></DISTRICT>
-    <TOWN_CODE></TOWN_CODE>
-    <TOWN>{{ docBillingAddress.county or '' }}</TOWN>
-    <CITY_CODE></CITY_CODE>
-    <CITY>{{ docBillingAddress.city or '' }}</CITY>
-    <COUNTRY_CODE></COUNTRY_CODE>
-    <COUNTRY>{{ docBillingAddress.country or '' }}</COUNTRY>
-    <TELEPHONE1></TELEPHONE1>
-    <TELEPHONE1_CODE></TELEPHONE1_CODE>
-    <TELEPHONE2></TELEPHONE2>
-    <TELEPHONE2_CODE></TELEPHONE2_CODE>
-    <TAX_ID>{{ doc.tax_id or '' }}</TAX_ID>
-    <TAX_OFFICE>{{ doc.custom_tax_office or '' }}</TAX_OFFICE>
-    <CONTACT></CONTACT>
-    <PAYMENT_CODE>{{ doc.logo_payment_term }}</PAYMENT_CODE>
-    <E_MAIL></E_MAIL>
+	<ADDRESS2>{{ docBillingAddress.address_line2 or '' }}</ADDRESS2>
+	<DISTRICT_CODE></DISTRICT_CODE>
+	<DISTRICT></DISTRICT>
+	<TOWN_CODE></TOWN_CODE>
+	<TOWN>{{ docBillingAddress.county or '' }}</TOWN>
+	<CITY_CODE></CITY_CODE>
+	<CITY>{{ docBillingAddress.city or '' }}</CITY>
+	<COUNTRY_CODE></COUNTRY_CODE>
+	<COUNTRY>{{ docBillingAddress.country or '' }}</COUNTRY>
+	<TELEPHONE1></TELEPHONE1>
+	<TELEPHONE1_CODE></TELEPHONE1_CODE>
+	<TELEPHONE2></TELEPHONE2>
+	<TELEPHONE2_CODE></TELEPHONE2_CODE>
+	<TAX_ID>{{ doc.tax_id or '' }}</TAX_ID>
+	<TAX_OFFICE>{{ doc.custom_tax_office or '' }}</TAX_OFFICE>
+	<CONTACT></CONTACT>
+	<PAYMENT_CODE>{{ doc.logo_payment_term }}</PAYMENT_CODE>
+	<E_MAIL></E_MAIL>
 	<AUXIL_CODE>{{ doc.customer_group }}</AUXIL_CODE>
 	<AUXIL_CODE5>{{ doc.territory }}</AUXIL_CODE5>
 	<CONTACT2></CONTACT2>
-    <E_MAIL2></E_MAIL2>
-    <PURCHBRWS>1</PURCHBRWS>
-    <SALESBRWS>1</SALESBRWS>
-    <IMPBRWS>1</IMPBRWS>
-    <EXPBRWS>1</EXPBRWS>
-    <FINBRWS>1</FINBRWS>
-    <COLLATRLRISK_TYPE>1</COLLATRLRISK_TYPE>
-    <EBANKCODE>-7</EBANKCODE>
-    <RISK_TYPE1>1</RISK_TYPE1>
-    <RISK_TYPE2>1</RISK_TYPE2>
-    <RISK_TYPE3>1</RISK_TYPE3>
-    <PROFILE_ID>2</PROFILE_ID>
-    <PROFILEID_DESP>1</PROFILEID_DESP>
-    <DISP_PRINT_CNT>1</DISP_PRINT_CNT>
-    <ORD_PRINT_CNT>1</ORD_PRINT_CNT>
+	<E_MAIL2></E_MAIL2>
+	<PURCHBRWS>1</PURCHBRWS>
+	<SALESBRWS>1</SALESBRWS>
+	<IMPBRWS>1</IMPBRWS>
+	<EXPBRWS>1</EXPBRWS>
+	<FINBRWS>1</FINBRWS>
+	<COLLATRLRISK_TYPE>1</COLLATRLRISK_TYPE>
+	<EBANKCODE>-7</EBANKCODE>
+	<RISK_TYPE1>1</RISK_TYPE1>
+	<RISK_TYPE2>1</RISK_TYPE2>
+	<RISK_TYPE3>1</RISK_TYPE3>
+	<PROFILE_ID>2</PROFILE_ID>
+	<PROFILEID_DESP>1</PROFILEID_DESP>
+	<DISP_PRINT_CNT>1</DISP_PRINT_CNT>
+	<ORD_PRINT_CNT>1</ORD_PRINT_CNT>
   </AR_AP>
 </AR_APS>]]>
 		 </tem:dataXML>
@@ -218,9 +218,22 @@ def get_logo_xml(doctype, docLObjectServiceSettings):
 
 	if dctResult.op_result == False:
 		link = frappe.utils.get_link_to_form("LOGO Object Service Settings", _("LOGO Object Service Settings"))
-		frappe.throw(_("{0} tipi {1} sayfasında eşleştirme bulunamadı!").format(_(doctype), link))
+		frappe.throw(_("{0} tipi {1} sayfasında XML şablonu bulunamadı!").format(_(doctype), link))
 
 	return dctResult
+
+@frappe.whitelist()
+def get_default_address(doc):
+	#Returns default address of a given doctype (Supplier, Customer)
+	from frappe.contacts.doctype.address.address import get_default_address
+
+	docResult = None
+
+	address_name = get_default_address(doc.doctype, doc.name)
+	if address_name:
+		docResult = frappe.get_doc("Address", address_name)
+
+	return docResult
 
 @frappe.whitelist()
 def get_logo_mapping_for(data_type, erp_code, throw_exception = False, docLObjectServiceSettings = None):
@@ -269,27 +282,25 @@ def get_item_tax_rate(strItemCode, docLObjectServiceSettings = None):
 	return flResult
 
 def validate_export_to_logo(doctype, docname, docLObjectServiceSettings):
+	dctResult = frappe._dict({
+		"op_result": True,
+		"op_message": ""
+	})
+
 	doc = frappe.get_doc(doctype, docname)
 	doc.check_permission("read")
 
 	if doctype == "Item":
 		#Tax must be ok
 		if len(doc.taxes) == 0:
-			frappe.throw(_("Vergiler tanımlı olmalıdır!"))
-
-		#get_item_tax_rate(doc.item_code, docLObjectServiceSettings)
-
-		#for tax in doc.taxes:
-		#	tax_company = frappe.db.get_value("Item Tax Template", tax.item_tax_template, "company")
-		#	if tax_company == docLObjectServiceSettings.default_company:
-		#		docItemTaxTemplate = frappe.get_doc("Item Tax Template", tax.item_tax_template)
-		#		if len(doc.taxes) == 0:
-		#			frappe.throw("{0} için vergi oranı tanımlı olmalıdır!".format(docItemTaxTemplate.name))
+			dctResult.op_result = False
+			dctResult.op_message = _("Vergiler tanımlı olmalıdır!")
 
 	if doctype == "Customer":
 		#Payment Term, default billing address
 		if not doc.payment_terms:
-			frappe.throw(_("Ödeme Şekli alanı boş bırakılmamalıdır!"))
+			dctResult.op_result = False
+			dctResult.op_message = _("Ödeme Şekli alanı boş bırakılmamalıdır!")
 
 		#Check billing address
 		dctBillingAddress = frappe.get_all("Address",
@@ -303,7 +314,62 @@ def validate_export_to_logo(doctype, docname, docLObjectServiceSettings):
 			limit=1
 		)
 		if not dctBillingAddress:
-			frappe.throw(_("Adres tanımlı olmalıdır!"))
+			dctResult.op_result = False
+			dctResult.op_message = _("Fatura adresi tanımlı olmalıdır!")
+
+	return dctResult
+
+@frappe.whitelist(allow_guest=False)
+def bulk_export_to_logo(names, doctype, update_logo = False):
+	dctResult = frappe._dict({
+		"op_result": False,
+		"op_message": "",
+		"failure_count": 0,
+		"success_count": 0,
+		"error_message": []
+	})
+
+	if not frappe.has_permission(doctype, "read"):
+		frappe.throw(_("Not permitted"), frappe.PermissionError)
+
+	names = json.loads(names)
+
+	for name in names:
+		try:
+			dctExportResult = export_to_logo(doctype, name, update_logo)
+			if dctExportResult.op_result == True:
+				dctResult.success_count += 1
+			else:
+				dctResult.error_message.append("<b>{0}</b>: {1}".format(name, dctExportResult.op_message)) #dctExportResult.op_message
+				dctResult.failure_count += 1
+
+		except Exception as e:
+			dctResult.error_message.append("{0}: {1}".format(name, str(e)))
+			dctResult.failure_count += 1
+	
+	dctResult.op_result = True
+	dctResult.op_message = "Success"
+	
+	# Build the summary message
+	msg = f"<b>{_('Export Complete')}</b><br>"
+	msg += f"{_('Success')}: {dctResult.success_count}<br>"
+	msg += f"{_('Failed')}: {dctResult.failure_count}"
+
+	if dctResult.error_message:
+		msg += "<hr>" + "<br>".join(dctResult.error_message)
+
+	# Determine indicator color (green if no failures, else orange)
+	indicator = 'green' if dctResult.failure_count == 0 else 'orange'
+
+	# Show the message directly from backend
+	frappe.msgprint(
+		msg=msg,
+		title=_("Logo Export Result"),
+		indicator=indicator,
+		wide=True
+	)
+
+	return dctResult
 
 @frappe.whitelist(allow_guest=False)
 def export_to_logo(doctype, docname, update_logo = False):
@@ -332,112 +398,94 @@ def export_to_logo(doctype, docname, update_logo = False):
 		if docLObjectServiceSettings.enable_lobject_service == 0:
 			frappe.throw(_("LOGO Object Service aktif değil!"))
 
-		validate_export_to_logo(doctype, docname, docLObjectServiceSettings)
-
-		if doc.doctype == "Item":
-			doc.logo_dataType = 0
-
-			#dctUnit = get_logo_mapping_for("UOM", doc.stock_uom, throw_exception = True, docLObjectServiceSettings = docLObjectServiceSettings)
-			#if dctUnit.op_result == True:
-			#	doc.logo_unitset_code = dctUnit.op_message
-			#	doc.logo_unit_code = dctUnit.op_message_2
-
-			#Find tax rate
-			doc.logo_tax_rate = get_item_tax_rate(doc.item_code, docLObjectServiceSettings)
-			#for tax in doc.taxes:
-			#	tax_company = frappe.db.get_value("Item Tax Template", tax.item_tax_template, "company")
-			#	if tax_company == docLObjectServiceSettings.default_company:
-			#		docItemTaxTemplate = frappe.get_doc("Item Tax Template", tax.item_tax_template)
-			#		doc.logo_tax_rate = docItemTaxTemplate.taxes[0].tax_rate
-
-			soap_body = frappe.render_template(soap_body, context={'doc': doc, 'docLObjectServiceSettings': docLObjectServiceSettings, 'parameterXML': parameterXML})
-
-		elif doc.doctype == "Customer":
-			doc.logo_dataType = 30
-
-			#dctCustomerGroup = get_logo_mapping_for("Customer Group", doc.customer_group, throw_exception = True, docLObjectServiceSettings = docLObjectServiceSettings)
-			#if dctCustomerGroup.op_result == True:
-			#	doc.logo_parent_code = dctCustomerGroup.logo_code
-
-			#doc.logo_payment_term = ""
-			#if doc.payment_terms:
-			#	dctPaymentTerm = get_logo_mapping_for("Payment Terms Template", doc.payment_terms, throw_exception = True, docLObjectServiceSettings = docLObjectServiceSettings)
-			#	if dctPaymentTerm.op_result == True:
-			#		doc.logo_payment_term = dctPaymentTerm.logo_code
-
-			if doc.customer_type == "Individual":
-				doc.personal_company = 1
-			else:
-				doc.personal_company = 0
-
-			dctBillingAddress = frappe.get_all("Address",
-				filters=[
-					["Dynamic Link", "link_doctype", "=", "Customer"],
-					["Dynamic Link", "link_name", "=", doc.name],
-					["is_primary_address", "=", 1],
-					["address_type", "=", "Billing"]
-				],
-				fields=["name"],
-				limit=1
-			)
-			if dctBillingAddress:
-				docBillingAddress = frappe.get_doc("Address", dctBillingAddress[0].name)
-			else:
-				frappe.throw(_("Customer has no Billing Address"))
-
-			soap_body = frappe.render_template(soap_body, context={'doc': doc, 'docLObjectServiceSettings': docLObjectServiceSettings, 'docBillingAddress': docBillingAddress, 'parameterXML': parameterXML})
-		elif doctype in ["Sales Order", "Delivery Note"]:
-			from frappe.utils import formatdate, format_time
-			doc.posting_date_str = formatdate(doc.posting_date, "dd-mm-yyyy")
-			doc.posting_time_str = 0#format_time(doc.posting_time, format_string="HH:mm:ss.SSS") + "+03:00"
-
-			soap_body = frappe.render_template(soap_body, context={'doc': doc, 'docLObjectServiceSettings': docLObjectServiceSettings, 'parameterXML': parameterXML})
-
-		else:
-			soap_body = frappe.render_template(soap_body, context={'doc': doc, 'docLObjectServiceSettings': docLObjectServiceSettings, 'parameterXML': parameterXML})
-
-		headers = {
-			"Content-Type": "text/xml;charset=UTF-8",
-			"Accept-Encoding": "gzip,deflate",
-			"SOAPAction": "http://tempuri.org/ISvc/AppendDataObject"
-		}
-
-		if docLObjectServiceSettings.enable_detailed_log:
-			frappe.log_error("LOGO Object Request", f"URL={docLObjectServiceSettings.lobject_service_address}\n\nSOAP Body={soap_body}\n\nSOAP Headers={headers}")
-
-		response = requests.post(
-			url=docLObjectServiceSettings.lobject_service_address,
-			data=soap_body,#.encode('utf-8'),
-			headers=headers,
-			timeout=10
-		)
-
-		if docLObjectServiceSettings.enable_detailed_log:
-			frappe.log_error("LOGO Object Response", f"Status:{response.status_code}\nBody:{response.text}")
-
-		if response.status_code != 200:
+		dctValidationResult = validate_export_to_logo(doctype, docname, docLObjectServiceSettings)
+		if dctValidationResult.op_result == False:
 			dctResult.op_result = False
-			dctResult.op_message = f"HTTP Error {response.status_code}: {response.reason}"
+			dctResult.op_message = dctValidationResult.op_message
 		else:
-			dctResult.raw_response = response.text
-			soup = BeautifulSoup(response.content, 'xml')
-			result_status = soup.find('status')
+			if doc.doctype == "Item":
+				doc.logo_dataType = 0
+				#Find tax rate
+				doc.logo_tax_rate = get_item_tax_rate(doc.item_code, docLObjectServiceSettings)
 
-			if not result_status or not result_status.text:
-				dctResult.op_message = "Connected but no status returned!"
-			else:
-				data_reference = soup.find('dataReference')
-				error_string = soup.find('errorString')
+				soap_body = frappe.render_template(soap_body, context={'doc': doc, 'docLObjectServiceSettings': docLObjectServiceSettings, 'parameterXML': parameterXML})
 
-				dctResult.data_reference = int(data_reference.text) if data_reference else 0
-				dctResult.op_status = int(result_status.text) if result_status else 0
-				if dctResult.op_status != 3:
-					dctResult.op_result = False
-					dctResult.op_message =  (error_string.text if error_string else "") + "(OpStatus=" + str(dctResult.op_status) + ")"
+			elif doc.doctype == "Customer":
+				doc.logo_dataType = 30
+
+				if doc.customer_type == "Individual":
+					doc.personal_company = 1
 				else:
-					dctResult.op_result = True
-					dctResult.op_message = data_reference
-					doc.add_comment("Comment", text=_("LOGO Export reference no {0}").format(dctResult.data_reference), comment_email=frappe.session.user, comment_by=frappe.session.user)
+					doc.personal_company = 0
+
+				dctBillingAddress = frappe.get_all("Address",
+					filters=[
+						["Dynamic Link", "link_doctype", "=", "Customer"],
+						["Dynamic Link", "link_name", "=", doc.name],
+						["is_primary_address", "=", 1],
+						["address_type", "=", "Billing"]
+					],
+					fields=["name"],
+					limit=1
+				)
+				if dctBillingAddress:
+					docBillingAddress = frappe.get_doc("Address", dctBillingAddress[0].name)
+				else:
+					frappe.throw(_("Customer has no Billing Address"))
+
+				soap_body = frappe.render_template(soap_body, context={'doc': doc, 'docLObjectServiceSettings': docLObjectServiceSettings, 'docBillingAddress': docBillingAddress, 'parameterXML': parameterXML})
+			elif doctype in ["Sales Order", "Delivery Note"]:
+				from frappe.utils import formatdate, format_time
+				doc.posting_date_str = formatdate(doc.posting_date, "dd-mm-yyyy")
+				doc.posting_time_str = 0#format_time(doc.posting_time, format_string="HH:mm:ss.SSS") + "+03:00"
+
+				soap_body = frappe.render_template(soap_body, context={'doc': doc, 'docLObjectServiceSettings': docLObjectServiceSettings, 'parameterXML': parameterXML})
+
+			else:
+				soap_body = frappe.render_template(soap_body, context={'doc': doc, 'docLObjectServiceSettings': docLObjectServiceSettings, 'parameterXML': parameterXML})
+
+			headers = {
+				"Content-Type": "text/xml;charset=UTF-8",
+				"Accept-Encoding": "gzip,deflate",
+				"SOAPAction": "http://tempuri.org/ISvc/AppendDataObject"
+			}
+
+			if docLObjectServiceSettings.enable_detailed_log:
+				frappe.log_error("LOGO Object Request", f"URL={docLObjectServiceSettings.lobject_service_address}\n\nSOAP Body={soap_body}\n\nSOAP Headers={headers}")
+
+			response = requests.post(
+				url=docLObjectServiceSettings.lobject_service_address,
+				data=soap_body,#.encode('utf-8'),
+				headers=headers,
+				timeout=10
+			)
+
+			if docLObjectServiceSettings.enable_detailed_log:
+				frappe.log_error("LOGO Object Response", f"Status:{response.status_code}\nBody:{response.text}")
+
+			if response.status_code != 200:
+				dctResult.op_result = False
+				dctResult.op_message = f"HTTP Error {response.status_code}: {response.reason}"
+			else:
+				dctResult.raw_response = response.text
+				soup = BeautifulSoup(response.content, 'xml')
+				result_status = soup.find('status')
+
+				if not result_status or not result_status.text:
+					dctResult.op_message = "Connected but no status returned!"
+				else:
+					data_reference = soup.find('dataReference')
+					error_string = soup.find('errorString')
+
+					dctResult.data_reference = int(data_reference.text) if data_reference else 0
+					dctResult.op_status = int(result_status.text) if result_status else 0
+					if dctResult.op_status != 3:
+						dctResult.op_result = False
+						dctResult.op_message =  (error_string.text if error_string else "") + "(OpStatus=" + str(dctResult.op_status) + ")"
+					else:
+						dctResult.op_result = True
+						dctResult.op_message = data_reference
+						doc.add_comment("Comment", text=_("LOGO Export reference no {0}").format(dctResult.data_reference), comment_email=frappe.session.user, comment_by=frappe.session.user)
 
 	except Exception as e:
 		dctResult.op_result = False
