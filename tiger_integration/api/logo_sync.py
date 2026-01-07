@@ -320,59 +320,68 @@ def validate_export_to_logo(doctype, docname, docLObjectServiceSettings):
 	return dctResult
 
 @frappe.whitelist(allow_guest=False)
-def bulk_export_to_logo(names, doctype, update_logo = False):
-	dctResult = frappe._dict({
-		"op_result": False,
-		"op_message": "",
-		"failure_count": 0,
-		"success_count": 0,
-		"error_message": []
-	})
-
+def bulk_export_to_logo(names, doctype, update_logo=False):
 	if not frappe.has_permission(doctype, "read"):
 		frappe.throw(_("Not permitted"), frappe.PermissionError)
 
+	# Decode names
 	names = json.loads(names)
 
-	for name in names:
+	# Queue the process to run in background
+	frappe.enqueue(
+		method=process_logo_export,
+		queue='long',
+		timeout=3600,
+		names=names,
+		doctype=doctype,
+		update_logo=update_logo,
+		user=frappe.session.user
+	)
+
+	return {"op_result": True, "op_message": _("Export started in background...")}
+
+def process_logo_export(names, doctype, update_logo, user):
+	dctResult = frappe._dict({
+		"success_count": 0,
+		"failure_count": 0,
+		"error_message": []
+	})
+
+	# Open a Session for speed
+	session = requests.Session()
+	# Fetch settings once and try to use it
+	docLObjectServiceSettings = frappe.get_doc("LOGO Object Service Settings")
+
+	total = len(names)
+
+	for i, name in enumerate(names):
 		try:
-			dctExportResult = export_to_logo(doctype, name, update_logo)
+			# Pass 'session'
+			dctExportResult = export_to_logo(doctype, name, update_logo, session=session, settings=docLObjectServiceSettings)
+			
 			if dctExportResult.op_result == True:
 				dctResult.success_count += 1
 			else:
-				dctResult.error_message.append("<b>{0}</b>: {1}".format(name, dctExportResult.op_message)) #dctExportResult.op_message
+				dctResult.error_message.append("<b>{0}</b>: {1}".format(name, dctExportResult.op_message))
 				dctResult.failure_count += 1
 
 		except Exception as e:
 			dctResult.error_message.append("{0}: {1}".format(name, str(e)))
 			dctResult.failure_count += 1
-	
-	dctResult.op_result = True
-	dctResult.op_message = "Success"
-	
-	# Build the summary message
-	msg = f"<b>{_('Export Complete')}</b><br>"
-	msg += f"{_('Success')}: {dctResult.success_count}<br>"
-	msg += f"{_('Failed')}: {dctResult.failure_count}"
 
-	if dctResult.error_message:
-		msg += "<hr>" + "<br>".join(dctResult.error_message)
+		#Update Progress Bar every 1%
+		if i % 10 == 0:
+			frappe.publish_realtime("logo_progress", {"current": i, "total": total}, user=user)
 
-	# Determine indicator color (green if no failures, else orange)
-	indicator = 'green' if dctResult.failure_count == 0 else 'orange'
-
-	# Show the message directly from backend
-	frappe.msgprint(
-		msg=msg,
-		title=_("Logo Export Result"),
-		indicator=indicator,
-		wide=True
-	)
-
-	return dctResult
+	#Send Final Result to User (Cannot return, must publish)
+	frappe.publish_realtime("logo_done", {
+		"success": dctResult.success_count,
+		"failed": dctResult.failure_count,
+		"errors": dctResult.error_message
+	}, user=user)
 
 @frappe.whitelist(allow_guest=False)
-def export_to_logo(doctype, docname, update_logo = False):
+def export_to_logo(doctype, docname, update_logo = False, session=None, settings=None):
 	dctResult = frappe._dict({
 		"op_result": False,
 		"op_message": "",
@@ -383,8 +392,10 @@ def export_to_logo(doctype, docname, update_logo = False):
 
 	doc = frappe.get_doc(doctype, docname)
 	doc.check_permission("read")
-	docLObjectServiceSettings = frappe.get_doc("LOGO Object Service Settings")
+	docLObjectServiceSettings = settings if settings else frappe.get_doc("LOGO Object Service Settings")
 	docLObjectServiceSettings.check_permission("read")
+
+	requester = session if session else requests
 
 	try:
 		dctXMLInfo = get_logo_xml(doctype, docLObjectServiceSettings)
@@ -453,11 +464,11 @@ def export_to_logo(doctype, docname, update_logo = False):
 			if docLObjectServiceSettings.enable_detailed_log:
 				frappe.log_error("LOGO Object Request", f"URL={docLObjectServiceSettings.lobject_service_address}\n\nSOAP Body={soap_body}\n\nSOAP Headers={headers}")
 
-			response = requests.post(
+			response = requester.post(
 				url=docLObjectServiceSettings.lobject_service_address,
 				data=soap_body,#.encode('utf-8'),
 				headers=headers,
-				timeout=10
+				timeout=20
 			)
 
 			if docLObjectServiceSettings.enable_detailed_log:
