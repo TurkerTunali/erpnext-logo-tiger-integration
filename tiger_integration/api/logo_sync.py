@@ -445,7 +445,9 @@ def export_to_logo(doctype, docname, update_logo = False, session=None, settings
 			elif doc.doctype in ["Supplier", "Customer"]:
 				doc.logo_dataType = 30
 
-				if doc.customer_type == "Individual":
+				if doc.doctype == "Customer" and doc.customer_type == "Individual":
+					doc.personal_company = 1
+				elif doc.doctype == "Supplier" and doc.supplier_type == "Individual":
 					doc.personal_company = 1
 				else:
 					doc.personal_company = 0
