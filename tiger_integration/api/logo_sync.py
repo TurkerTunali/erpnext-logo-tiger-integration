@@ -296,7 +296,28 @@ def validate_export_to_logo(doctype, docname, docLObjectServiceSettings):
 			dctResult.op_result = False
 			dctResult.op_message = _("Vergiler tanımlı olmalıdır!")
 
-	if doctype == "Customer":
+	elif doctype == "Supplier":
+		#Payment Term, default billing address
+		if not doc.payment_terms:
+			dctResult.op_result = False
+			dctResult.op_message = _("Ödeme Şekli alanı boş bırakılmamalıdır!")
+
+		#Check billing address
+		dctBillingAddress = frappe.get_all("Address",
+			filters=[
+				["Dynamic Link", "link_doctype", "=", "Supplier"],
+				["Dynamic Link", "link_name", "=", doc.name],
+				["is_primary_address", "=", 1],
+				["address_type", "=", "Billing"]
+			],
+			fields=["name"],
+			limit=1
+		)
+		if not dctBillingAddress:
+			dctResult.op_result = False
+			dctResult.op_message = _("Fatura adresi tanımlı olmalıdır!")
+
+	elif doctype == "Customer":
 		#Payment Term, default billing address
 		if not doc.payment_terms:
 			dctResult.op_result = False
@@ -421,7 +442,7 @@ def export_to_logo(doctype, docname, update_logo = False, session=None, settings
 
 				soap_body = frappe.render_template(soap_body, context={'doc': doc, 'docLObjectServiceSettings': docLObjectServiceSettings, 'parameterXML': parameterXML})
 
-			elif doc.doctype == "Customer":
+			elif doc.doctype in ["Supplier", "Customer"]:
 				doc.logo_dataType = 30
 
 				if doc.customer_type == "Individual":
@@ -431,7 +452,7 @@ def export_to_logo(doctype, docname, update_logo = False, session=None, settings
 
 				dctBillingAddress = frappe.get_all("Address",
 					filters=[
-						["Dynamic Link", "link_doctype", "=", "Customer"],
+						["Dynamic Link", "link_doctype", "=", doc.doctype],
 						["Dynamic Link", "link_name", "=", doc.name],
 						["is_primary_address", "=", 1],
 						["address_type", "=", "Billing"]
@@ -442,7 +463,7 @@ def export_to_logo(doctype, docname, update_logo = False, session=None, settings
 				if dctBillingAddress:
 					docBillingAddress = frappe.get_doc("Address", dctBillingAddress[0].name)
 				else:
-					frappe.throw(_("Customer has no Billing Address"))
+					frappe.throw(_("{0} {1} has no Billing Address").format(doc.doctype, doc.name))
 
 				soap_body = frappe.render_template(soap_body, context={'doc': doc, 'docLObjectServiceSettings': docLObjectServiceSettings, 'docBillingAddress': docBillingAddress, 'parameterXML': parameterXML})
 			elif doctype in ["Sales Order", "Delivery Note"]:
